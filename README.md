@@ -1,102 +1,173 @@
-# DIRIX — Smart File Directory Management System
+<div align="center">
 
-DIRIX is a menu-driven **C11 console application** that simulates a hierarchical file directory using a **General Tree**. It supports directory and file management, navigation by absolute paths, recursive searching, and persistent storage using standard C file handling.
+# DIRIX
+### Smart File Directory Management System
 
-## Problem Statement
+**Structure. Organize. Navigate.**
 
-Design a program to simulate a file directory system using a tree data structure.
+DIRIX is a C-based console application that simulates a hierarchical file and directory management system using a **General Tree** data structure.
 
-Required operations:
-1. Create directories and subdirectories.
-2. Insert files into a directory.
-3. Search for a file or folder.
-4. Display the directory structure in hierarchical form.
+It uses the **First Child-Next Sibling (FCNS)** representation to organize files and directories dynamically, with persistent storage through C file handling.
 
-DIRIX implements these core requirements and extends them with rename, move, delete, item properties, statistics, and save/load functionality.
+![Language](https://img.shields.io/badge/Language-C11-blue)
+![Data Structure](https://img.shields.io/badge/Data%20Structure-General%20Tree-green)
+![Interface](https://img.shields.io/badge/Interface-Console-lightgrey)
+![Storage](https://img.shields.io/badge/Storage-File%20Handling-orange)
 
-## Features
+</div>
 
+---
+
+## 1. Project Overview
+
+DIRIX demonstrates how a hierarchical directory system can be implemented using a General Tree in C.
+
+Each node represents either a file or a directory. Pointers maintain the parent, child, and sibling relationships needed to build and manage the hierarchy.
+
+The project focuses on Data Structures, dynamic memory allocation, recursion, tree traversal, path handling, and persistent storage using file handling.
+
+> DIRIX is a virtual directory simulator. It does not create, modify, or delete actual files and folders on the operating system.
+
+## 2. Objectives
+
+- Implement a General Tree in C.
+- Represent multiple children using FCNS pointers.
 - Create directories and subdirectories.
-- Add files with a user-specified size.
-- Search the tree by exact item name.
-- Display the complete hierarchy.
-- Rename files and directories.
+- Insert files into directories.
+- Search for files and directories.
+- Display the directory hierarchy.
+- Implement deletion, renaming, and movement operations.
+- Practice dynamic memory allocation and recursion.
+- Save and restore directory information using C file handling.
+- Prevent invalid operations and circular tree structures.
+
+## 3. Technology Stack
+
+| Component | Technology |
+|---|---|
+| Language | C |
+| Standard | C11 |
+| Data Structure | General Tree |
+| Representation | First Child-Next Sibling (FCNS) |
+| Compiler | GCC |
+| Interface | Menu-driven console |
+| Storage | C file handling |
+| Environment | Windows / Linux / macOS |
+
+---
+
+## 4. Core Features
+
+- Create directories and nested subdirectories.
+- Insert file entries into directories.
+- Display the directory tree recursively.
+- Search for files and directories.
+- Navigate and identify items using absolute paths.
+- Rename existing files and directories.
 - Move items between directories.
-- Delete files or complete directory subtrees.
-- View item properties and directory statistics.
-- Automatically load saved data at startup and save on exit.
-- Prevent duplicate names within the same directory.
+- Delete files or directories and their descendants.
 - Prevent moving a directory into itself or one of its descendants.
+- View item properties.
+- Display directory statistics.
+- Save directory information to a text file.
+- Load saved directory information when the application starts.
 
-## Data Structure
+### Input and hierarchy safeguards
 
-DIRIX uses a **General Tree** with the **First-Child / Next-Sibling (FCNS)** representation.
+- Duplicate names are not allowed within the same parent directory.
+- The same name can be used in different directories.
+- A directory cannot be moved into itself or any of its descendants.
+- File size is stored as metadata entered by the user.
 
-Each node stores:
-- `name`: file or directory name.
-- `type`: directory or file.
-- `file_size`: file size in bytes (zero for directories).
-- `parent`: pointer to the parent directory.
-- `first_child`: pointer to the first child.
-- `next_sibling`: pointer to the next item in the same directory.
+## 5. Data Structure: FCNS
 
-A general tree is suitable because a directory can contain any number of files and subdirectories.
+DIRIX uses a **General Tree** implemented through the **First Child-Next Sibling (FCNS)** representation.
 
-## Persistence and File Handling
+Each node contains fields for:
 
-The tree is stored in `data/directory_data.txt`. DIRIX serializes each item as a record containing its type, absolute path, and file size.
+| Field | Purpose |
+|---|---|
+| `name` | Stores the file or directory name |
+| `type` | Identifies whether the node is a file or directory |
+| `file_size` | Stores file-size metadata |
+| `parent` | Points to the parent directory |
+| `first_child` | Points to the first child node |
+| `next_sibling` | Points to the next node at the same level |
 
-C file handling functions used:
-- `fopen()` — open the data file.
-- `fprintf()` — write directory records.
-- `fgets()` — read records.
-- `fclose()` — close the file.
+This representation supports a variable number of children without requiring a fixed-size child array.
 
-The program rebuilds pointers and tree relationships when loading. It does not write raw pointer values to disk.
-
-## Project Structure
+### Example Directory Structure
 
 ```text
-DIRIX/
+/
+├── Documents/
+│   ├── College/
+│   │   └── assignment.pdf
+│   └── resume.docx
+├── Pictures/
+│   └── photo.jpg
+└── notes.txt
+```
+
+## 6. Project Structure
+
+```text
+DIRIX_C_Project/
 ├── src/
-│   ├── main.c
-│   ├── tree.c
-│   ├── tree.h
-│   ├── storage.c
-│   └── storage.h
+│   ├── main.c          # Menu and user interaction
+│   ├── tree.c          # General Tree operations
+│   ├── tree.h          # Tree structures and declarations
+│   ├── storage.c       # Saving and loading directory data
+│   └── storage.h       # Storage declarations
 ├── data/
 │   └── directory_data.txt
 ├── docs/
+│   └── VIVA_NOTES.md   # Viva preparation notes
+├── .gitignore
+├── Makefile
 └── README.md
 ```
 
-## Requirements
+## 7. Compilation and Execution
 
-- GCC or another C11-compatible compiler.
-- Windows, Linux, or macOS.
-- No external libraries are required.
+### Prerequisites
 
-## Compile and Run
+- GCC compiler (MinGW-w64, MSYS2, or another GCC distribution on Windows).
+- PowerShell, Command Prompt, Linux terminal, or macOS terminal.
 
-Run commands from the project root.
+### Windows (PowerShell)
 
-### Windows (GCC / MinGW / MSYS2)
+Run these commands from the project root directory:
+
+**Compile**
 
 ```powershell
 gcc -std=c11 -Wall -Wextra -pedantic src/main.c src/tree.c src/storage.c -o dirix.exe
+```
+
+**Run**
+
+```powershell
 .\dirix.exe
 ```
 
 ### Linux / macOS
 
+**Compile**
+
 ```bash
 gcc -std=c11 -Wall -Wextra -pedantic src/main.c src/tree.c src/storage.c -o dirix
+```
+
+**Run**
+
+```bash
 ./dirix
 ```
 
-Make sure the `data` directory exists before running. It is included in this project.
+## 8. Application Menu
 
-## Console Menu
+The application provides the following menu-driven operations:
 
 ```text
 ========== DIRIX ==========
@@ -114,59 +185,67 @@ Make sure the `data` directory exists before running. It is included in this pro
 ===========================
 ```
 
-## Path Rules
+## 9. Persistent Storage
 
-- `/` represents the root directory.
-- `/Documents` represents a directory directly under root.
-- `/Documents/College` represents a nested directory.
-- Paths and names are case-sensitive.
-- Names cannot contain `/`, `\\`, or `|`.
-- An item name must be unique within its parent directory; the same name can exist in different directories.
+DIRIX uses C file handling to preserve the virtual directory structure between program runs.
 
-## Algorithms and Complexity
+The data is stored in:
 
-Let `n` be the number of nodes, `s` the number of siblings in a target directory, and `k` the number of nodes in a deleted subtree.
+```text
+data/directory_data.txt
+```
 
-| Operation | Complexity | Notes |
-|---|---:|---|
-| Search by name | O(n) | Recursive depth-first search. |
-| Display tree | O(n) | Visits every node once. |
-| Statistics | O(n) | Traverses all nodes in selected subtree. |
-| Add child | O(s) | Appends to the sibling list. |
-| Delete subtree | O(k) | Frees every node in the subtree. |
-| Move item | O(s + t) | Scans old and new sibling lists. |
+The application saves directory and file records using their logical absolute paths and file-size metadata. During loading, it reads the records and rebuilds the tree and its pointer relationships.
 
-## C Concepts Demonstrated
+File-handling functions used include:
 
+- `fopen()` — opens the data file.
+- `fprintf()` — writes directory records.
+- `fgets()` — reads saved records.
+- `fclose()` — closes the file.
+
+**Storage note:** DIRIX stores directory information and metadata, not raw pointer addresses or actual file contents. The file size entered for a file is only simulated metadata.
+
+## 10. Current Scope and Limitations
+
+The current version is a console-based educational simulation.
+
+- Directory and file entries are virtual nodes in the program's tree.
+- Actual operating-system files and folders are not modified.
+- Directory information is saved in a text file and restored when the application starts.
+- File contents are not stored; only file names and size metadata are maintained.
+- The interface is command-line based.
+- The storage format is designed for this educational project, not concurrent or production use.
+
+## 11. Future Enhancements
+
+- Graphical user interface.
+- Integration with actual operating-system file-system operations.
+- More detailed file metadata management.
+- Advanced filtering and search options.
+- Import and export of directory structures.
+- More extensive automated testing.
+
+## 12. Academic Relevance
+
+DIRIX demonstrates practical applications of:
+
+- General Trees.
+- First Child-Next Sibling representation.
 - Structures and pointers.
-- General Tree and linked representation.
-- Dynamic memory allocation using `malloc()`.
-- Memory deallocation using `free()`.
-- Recursion and depth-first traversal.
-- String handling and path parsing.
+- Dynamic memory allocation.
+- Recursion and tree traversal.
+- Searching and modification operations.
+- Path handling and string processing.
 - File handling and persistent storage.
-- Modular programming using header and source files.
+- Memory management and input validation.
 
-## Scope and Limitations
-
-- DIRIX is a virtual directory simulator; it does not create or modify actual operating-system files and folders.
-- File sizes are metadata entered by the user; file contents are not stored.
-- Search by name returns the first matching item encountered. Absolute paths identify a specific item.
-- Storage uses a simple text record format and is intended for educational use, not concurrent or production use.
-
-## Academic Mapping
-
-**Primary topic: Unit IV — Trees and Graphs**
-- Tree terminology: root, parent, child, sibling, and leaf.
-- General tree representation.
-- Recursive traversal and searching.
-- Dynamic memory allocation for linked tree nodes.
-
-**Supporting C concepts:** structures, pointers, strings, functions, and file handling.
+**Primary data-structure concept:** General Tree — representing a hierarchical directory system in which each directory can contain multiple files and subdirectories.
 
 ---
 
-**Project:** DIRIX — Smart File Directory Management System  
-**Language:** C11  
-**Interface:** Console-based  
-**Core Data Structure:** General Tree (First-Child / Next-Sibling)  
+<div align="center">
+
+**DIRIX — Structure. Organize. Navigate.**
+
+</div>
