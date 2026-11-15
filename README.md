@@ -1,4 +1,4 @@
-<div align="center">
+
 
 # DIRIX
 ### Smart File Directory Management System
@@ -8,15 +8,6 @@
 DIRIX is a C-based console application that simulates a hierarchical file and directory management system using a **General Tree** data structure.
 
 It uses the **First Child-Next Sibling (FCNS)** representation to organize files and directories dynamically, with persistent storage through C file handling.
-
-![Language](https://img.shields.io/badge/Language-C11-blue)
-![Data Structure](https://img.shields.io/badge/Data%20Structure-General%20Tree-green)
-![Interface](https://img.shields.io/badge/Interface-Console-lightgrey)
-![Storage](https://img.shields.io/badge/Storage-File%20Handling-orange)
-
-</div>
-
----
 
 ## 1. Project Overview
 
@@ -244,8 +235,7 @@ DIRIX demonstrates practical applications of:
 
 ---
 
-<div align="center">
 
 **DIRIX — Structure. Organize. Navigate.**
 
-</div>
+
